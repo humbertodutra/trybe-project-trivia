@@ -28,38 +28,49 @@ export default function Login() {
   }
 
   return (
-    <form onSubmit={ (event) => event.preventDefault() }>
-      <label htmlFor="input-name">
-        <input
-          name="name"
-          id="input-name"
-          type="text"
-          data-testid="input-player-name"
-          value={ state.name }
-          onChange={ handleChange }
-        />
-      </label>
-      <label htmlFor="input-email">
-        <input
-          name="email"
-          id="input-email"
-          type="email"
-          data-testid="input-gravatar-email"
-          value={ state.email }
-          onChange={ handleChange }
-        />
-      </label>
-      <Link to="/game">
+    <div>
+      <form onSubmit={ (event) => event.preventDefault() }>
+        <label htmlFor="input-name">
+          <input
+            name="name"
+            id="input-name"
+            type="text"
+            data-testid="input-player-name"
+            value={ state.name }
+            onChange={ handleChange }
+          />
+        </label>
+        <label htmlFor="input-email">
+          <input
+            name="email"
+            id="input-email"
+            type="email"
+            data-testid="input-gravatar-email"
+            value={ state.email }
+            onChange={ handleChange }
+          />
+        </label>
+        <Link to="/game">
+          <button
+            id="btn-play"
+            type="submit"
+            data-testid="btn-play"
+            disabled={ state.name === '' || state.email === '' }
+            onClick={ handlePlay }
+          >
+            Play
+          </button>
+        </Link>
+      </form>
+
+      <Link to="/settings">
         <button
-          id="btn-play"
-          type="submit"
-          data-testid="btn-play"
-          disabled={ state.name === '' || state.email === '' }
-          onClick={ handlePlay }
+          data-testid="btn-settings"
+          type="button"
         >
-          Play
+          Configurações do jogo
         </button>
       </Link>
-    </form>
+    </div>
   );
 }
