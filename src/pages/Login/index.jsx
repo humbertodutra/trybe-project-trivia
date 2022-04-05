@@ -16,7 +16,7 @@ export default function Login() {
   }
 
   return (
-    <div>
+    <form onSubmit={ (event) => event.preventDefault() }>
       <label htmlFor="input-name">
         <input
           name="name"
@@ -39,13 +39,12 @@ export default function Login() {
       </label>
       <button
         id="btn-play"
-        type="button"
+        type="submit"
         data-testid="btn-play"
         disabled={ state.name === '' || state.email === '' }
       >
         Play
-
       </button>
-    </div>
+    </form>
   );
 }
