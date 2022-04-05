@@ -1,5 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../../App.css';
+import { useDispatch } from 'react-redux';
+import { tokenData, playerData } from '../../redux/actions';
+import fetchToken from './helpers';
 
 export default function Login() {
   const [state, setState] = React.useState({
@@ -7,12 +11,20 @@ export default function Login() {
     email: '',
   });
 
+  const dispatch = useDispatch();
+
   function handleChange({ target }) {
     const { name, value } = target;
     setState({
       ...state,
       [name]: value,
     });
+  }
+
+  async function handlePlay() {
+    const { token } = await fetchToken();
+    dispatch(tokenData(token));
+    dispatch(playerData(state));
   }
 
   return (
@@ -37,14 +49,17 @@ export default function Login() {
           onChange={ handleChange }
         />
       </label>
-      <button
-        id="btn-play"
-        type="submit"
-        data-testid="btn-play"
-        disabled={ state.name === '' || state.email === '' }
-      >
-        Play
-      </button>
+      <Link to="/game">
+        <button
+          id="btn-play"
+          type="submit"
+          data-testid="btn-play"
+          disabled={ state.name === '' || state.email === '' }
+          onClick={ handlePlay }
+        >
+          Play
+        </button>
+      </Link>
     </form>
   );
 }
