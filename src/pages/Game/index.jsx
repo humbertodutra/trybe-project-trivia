@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchQuestion, fetchToken } from '../../services/api';
 import Header from '../../components/Header/index';
 
-import { tokenData } from '../../redux/actions';
+import { tokenData, updateScore } from '../../redux/actions';
 import './game.css';
 
+const MEDIUM = 2;
+const HARD = 3;
+const TEN = 10;
 const THIRTY = 30;
 const ONE_SECOND = 1000;
 
@@ -20,7 +23,7 @@ export default function Game() {
   const shuffleAnswers = (answers) => {
     const sortNumber = 0.5;
     const answersObj = [
-      { text: answers.correct_answer, correct: true, id: 10 },
+      { text: answers.correct_answer, correct: true, id: TEN },
       ...answers.incorrect_answers.map((answer, i) => ({
         text: answer,
         correct: false,
@@ -29,6 +32,20 @@ export default function Game() {
     ];
     return answersObj.sort(() => Math.random() - sortNumber);
   };
+
+  function handleClick(correct) {
+    setAnswered(true);
+
+    const difficultyScores = {
+      hard: TEN + (timer * HARD),
+      medium: TEN + (timer * MEDIUM),
+      easy: TEN + timer,
+    };
+
+    if (correct) {
+      dispatch(updateScore(difficultyScores[questions.difficulty]));
+    }
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -77,7 +94,7 @@ export default function Game() {
         {questions.answers
           && questions.answers.map(({ text, correct, id }) => (
             <button
-              onClick={ () => setAnswered(true) }
+              onClick={ () => handleClick(correct) }
               className={ `question ${answered && correct && 'correct'}
                ${answered && !correct && 'incorrect'}` }
               data-testid={ correct ? 'correct-answer' : `wrong-answer-${id}` }

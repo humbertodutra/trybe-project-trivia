@@ -18,3 +18,10 @@ export function setRanking(payload) {
     payload,
   };
 }
+
+export function updateScore(score) {
+  return {
+    type: 'UPDATE_SCORE',
+    score,
+  };
+}

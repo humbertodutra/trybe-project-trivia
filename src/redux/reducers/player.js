@@ -13,6 +13,11 @@ export default function player(state = INITIAL_STATE, action) {
       name: action.data.name,
       gravatarEmail: action.data.email,
     };
+  case ('UPDATE_SCORE'):
+    return {
+      ...state,
+      score: action.score,
+    };
   default:
     return state;
   }

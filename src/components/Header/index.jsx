@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import md5 from 'crypto-js/md5';
 
 export default function Header() {
-  const { player: { gravatarEmail, name } } = useSelector((state) => state);
+  const { player: { gravatarEmail, name, score } } = useSelector((state) => state);
 
   return (
     <header>
@@ -14,7 +14,7 @@ export default function Header() {
           alt="avatar"
         />
         <p data-testid="header-player-name">{name}</p>
-        <p data-testid="header-score">0</p>
+        <p data-testid="header-score">{score}</p>
       </section>
     </header>
   );
