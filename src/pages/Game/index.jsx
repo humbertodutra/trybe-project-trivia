@@ -5,11 +5,13 @@ import Header from "./../../components/Header/index";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchToken } from "./../../services/api";
 import { tokenData } from '../../redux/actions';
+import './game.css'
 
 export default function Game() {
 
   const [questions, setQuestion] = useState({});
   const [newQuestion, setNewQuestion] = useState(false);
+  const [answered, setAnswered] = useState(false);
 
   const { token } = useSelector((state) => state)
   const dispatch = useDispatch()
@@ -36,7 +38,7 @@ export default function Game() {
     useEffect(() => {
       getNewQuestion();
     }, [token, newQuestion]);
-
+  
     return (
       <div>
         <Header />
@@ -45,13 +47,14 @@ export default function Game() {
         <div data-testid="answer-options">
           {questions.answers?.map(({ text, correct, id }) => (
             <button
-              onClick={() => setNewQuestion(!newQuestion)}
+              onClick={() => setAnswered(true)}
+              className={`question ${answered && correct && 'correct'}
+               ${answered && !correct &&  'incorrect'}`}
               data-testid={correct ? 'correct-answer' : `wrong-answer-${id}`}
               key={`${text}:${id}`} type="button">
               {text}
             </button>))}
         </div>
       </div>
-    );
-  
+  );
 }
