@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { fetchQuestion } from '../../services/api';
-import Header from './../../components/Header/index';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchToken } from './../../services/api';
+import { fetchQuestion, fetchToken } from '../../services/api';
+import Header from '../../components/Header/index';
+
 import { tokenData } from '../../redux/actions';
 import './game.css';
+
+const THIRTY = 30;
+const ONE_SECOND = 1000;
 
 export default function Game() {
   const [questions, setQuestion] = useState({});
   const [answered, setAnswered] = useState(false);
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(THIRTY);
 
   const { token } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -30,18 +33,22 @@ export default function Game() {
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer((prev) => prev - 1);
-      console.log('time');
-    }, 1000);
+    }, ONE_SECOND);
+
+    if (answered) {
+      clearInterval(interval);
+    }
+
     setTimeout(() => {
       clearInterval(interval);
       setAnswered(true);
-    }, 30 * 1000);
+    }, THIRTY * ONE_SECOND);
 
     return () => {
       clearInterval(interval);
-      setTimer(30);
+      setTimer(THIRTY);
     };
-  }, [questions]);
+  }, [answered]);
 
   useEffect(() => {
     const getNewQuestion = async () => {
@@ -49,7 +56,7 @@ export default function Game() {
         try {
           const data = await fetchQuestion(token);
           setQuestion({
-            ...data?.results,
+            ...data?.results[0],
             answers: shuffleAnswers(data?.results[0]),
           });
         } catch {
@@ -61,27 +68,28 @@ export default function Game() {
     getNewQuestion();
   }, [token, dispatch]);
 
-    useEffect(() => {
-      getNewQuestion();
-    }, [token]);
-  
-    return (
-      <div>
-        <Header />
-        <p data-testid="question-category">{ questions.category }</p>
-        <h3 data-testid="question-text">{ questions.question }</h3>
-        <div data-testid="answer-options">
-          { questions.answers && questions.answers.map(({ text, correct, id }) => (
+  return (
+    <div>
+      <Header />
+      <p data-testid="question-category">{questions.category}</p>
+      <h3 data-testid="question-text">{questions.question}</h3>
+      <div data-testid="answer-options">
+        {questions.answers
+          && questions.answers.map(({ text, correct, id }) => (
             <button
               onClick={ () => setAnswered(true) }
               className={ `question ${answered && correct && 'correct'}
-               ${ answered && !correct &&  'incorrect'}` }
+               ${answered && !correct && 'incorrect'}` }
               data-testid={ correct ? 'correct-answer' : `wrong-answer-${id}` }
-              key={`${text}:${id}`} type="button">
+              key={ `${text}:${id}` }
+              type="button"
+              disabled={ answered }
+            >
               {text}
-            </button>)) }
-        </div>
+            </button>
+          ))}
       </div>
+      <h1>{timer}</h1>
     </div>
   );
 }
