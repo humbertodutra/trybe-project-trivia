@@ -1,13 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import md5 from 'crypto-js/md5';
 
 export default function Header() {
-  const { name, imgSrc } = useSelector(({ user }) => user);
+  const { player: { gravatarEmail, name } } = useSelector((state) => state);
 
   return (
     <header>
       <section>
-        <img data-testid="header-profile-picture" src={ imgSrc } alt="avatar" />
+        <img
+          data-testid="header-profile-picture"
+          src={ `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}` }
+          alt="avatar"
+        />
         <p data-testid="header-player-name">{name}</p>
         <p data-testid="header-score">0</p>
       </section>

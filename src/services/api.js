@@ -5,8 +5,14 @@ async function customFetch(URL, ENDPOINT) {
     .catch((error) => console.log('Error: ', error));
 }
 
-export default function fetchToken() {
+export function fetchToken() {
   const URL = 'https://opentdb.com';
   const ENDPOINT = '/api_token.php?command=request';
+  return customFetch(URL, ENDPOINT);
+}
+
+export function fetchQuestion(token) {
+  const URL = 'https://opentdb.com';
+  const ENDPOINT = `/api.php?amount=5&token=${token}`;
   return customFetch(URL, ENDPOINT);
 }

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import '../../App.css';
 import { useDispatch } from 'react-redux';
 import { tokenData, playerData } from '../../redux/actions';
-import fetchToken from './helpers';
+import { fetchToken } from '../../services/api';
 
 export default function Login() {
   const [state, setState] = React.useState({
