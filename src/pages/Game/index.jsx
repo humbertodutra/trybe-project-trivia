@@ -6,6 +6,7 @@ import Header from '../../components/Header/index';
 import { tokenData, updateScore } from '../../redux/actions';
 import './game.css';
 
+const sortNumber = 0.5;
 const MEDIUM = 2;
 const HARD = 3;
 const TEN = 10;
@@ -13,7 +14,9 @@ const THIRTY = 30;
 const ONE_SECOND = 1000;
 
 export default function Game() {
-  const [questions, setQuestion] = useState({});
+  const [questions, setQuestions] = useState([]);
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [shuffled, setShuffled] = useState([]);
   const [answered, setAnswered] = useState(false);
   const [timer, setTimer] = useState(THIRTY);
 
@@ -21,7 +24,6 @@ export default function Game() {
   const dispatch = useDispatch();
 
   const shuffleAnswers = (answers) => {
-    const sortNumber = 0.5;
     const answersObj = [
       { text: answers.correct_answer, correct: true, id: TEN },
       ...answers.incorrect_answers.map((answer, i) => ({
@@ -41,10 +43,15 @@ export default function Game() {
       medium: TEN + (timer * MEDIUM),
       easy: TEN + timer,
     };
-
     if (correct) {
-      dispatch(updateScore(difficultyScores[questions.difficulty]));
+      dispatch(updateScore(difficultyScores[questions[questionIndex].difficulty]));
     }
+  }
+
+  function handleNextClick() {
+    setAnswered(false);
+    // Reseta o timer
+    setQuestionIndex((state) => state + 1);
   }
 
   useEffect(() => {
@@ -72,10 +79,7 @@ export default function Game() {
       if (token) {
         try {
           const data = await fetchQuestion(token);
-          setQuestion({
-            ...data?.results[0],
-            answers: shuffleAnswers(data?.results[0]),
-          });
+          setQuestions(data.results);
         } catch {
           const newToken = fetchToken();
           dispatch(tokenData(newToken));
@@ -85,14 +89,18 @@ export default function Game() {
     getNewQuestion();
   }, [token, dispatch]);
 
+  useEffect(() => {
+    if (questions[questionIndex]) {
+      setShuffled(shuffleAnswers(questions[questionIndex]));
+    }
+    }, [questions, questionIndex]);
   return (
     <div>
       <Header />
-      <p data-testid="question-category">{questions.category}</p>
-      <h3 data-testid="question-text">{questions.question}</h3>
+      <p data-testid="question-category">{questions[questionIndex]?.category}</p>
+      <h3 data-testid="question-text">{questions[questionIndex]?.question}</h3>
       <div data-testid="answer-options">
-        {questions.answers
-          && questions.answers.map(({ text, correct, id }) => (
+        {shuffled.map(({ text, correct, id }) => (
             <button
               onClick={ () => handleClick(correct) }
               className={ `question ${answered && correct && 'correct'}
@@ -106,6 +114,14 @@ export default function Game() {
             </button>
           ))}
       </div>
+      { answered &&
+        <button
+          onClick={ handleNextClick }
+          data-testid="btn-next"
+        >
+          Next
+        </button>
+      }
       <h1>{timer}</h1>
     </div>
   );
