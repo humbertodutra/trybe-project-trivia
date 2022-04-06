@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { fetchQuestion } from '../../services/api';
 import Header from "./../../components/Header/index";
@@ -19,14 +20,22 @@ export default function Game() {
   };
 
   const getNewQuestion = async () => {
+    
     if (token) {
       const data = await fetchQuestion(token);
       setQuestion({ ...data?.results[0], answers: shuffleAnswers(data?.results[0]) });
+    try {
+      const data = await fetchQuestion(token);
+      setQuestion({ ...data?.results[0], answers: shuffleAnswers(data?.results[0]) });
+    } catch {
+      const newToken = fetchToken()
+      dispatch(tokenData(newToken))
     }
   };
 
   useEffect(() => {
     getNewQuestion();
+
   }, [token,newQuestion]);
 
   return (
