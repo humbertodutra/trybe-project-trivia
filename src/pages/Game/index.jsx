@@ -1,8 +1,10 @@
+
 import React, { useEffect, useState } from 'react';
 import { fetchQuestion } from '../../services/api';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchToken } from "./../../services/api";
 import { tokenData } from '../../redux/actions';
+
 
 export default function Game() {
   const [questions, setQuestion] = useState({});
@@ -36,6 +38,7 @@ export default function Game() {
   const { category, question, answers } = questions;
 
   return (
+  <Header />
     <div>
       <p data-testid="question-category">{category}</p>
       <h3 data-testid="question-text">{question}</h3>
@@ -49,5 +52,7 @@ export default function Game() {
           </button>))}
       </div>
     </div>
+  
+
   );
 }
