@@ -10,7 +10,6 @@ import './game.css'
 export default function Game() {
 
   const [questions, setQuestion] = useState({});
-  const [newQuestion, setNewQuestion] = useState(false);
   const [answered, setAnswered] = useState(false);
 
   const { token } = useSelector((state) => state)
@@ -37,23 +36,23 @@ export default function Game() {
 
     useEffect(() => {
       getNewQuestion();
-    }, [token, newQuestion]);
+    }, [token]);
   
     return (
       <div>
         <Header />
-        <p data-testid="question-category">{questions.category}</p>
-        <h3 data-testid="question-text">{questions.question}</h3>
+        <p data-testid="question-category">{ questions.category }</p>
+        <h3 data-testid="question-text">{ questions.question }</h3>
         <div data-testid="answer-options">
-          {questions.answers?.map(({ text, correct, id }) => (
+          { questions.answers && questions.answers.map(({ text, correct, id }) => (
             <button
-              onClick={() => setAnswered(true)}
-              className={`question ${answered && correct && 'correct'}
-               ${answered && !correct &&  'incorrect'}`}
-              data-testid={correct ? 'correct-answer' : `wrong-answer-${id}`}
+              onClick={ () => setAnswered(true) }
+              className={ `question ${answered && correct && 'correct'}
+               ${ answered && !correct &&  'incorrect'}` }
+              data-testid={ correct ? 'correct-answer' : `wrong-answer-${id}` }
               key={`${text}:${id}`} type="button">
               {text}
-            </button>))}
+            </button>)) }
         </div>
       </div>
   );
