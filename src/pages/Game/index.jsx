@@ -61,26 +61,26 @@ export default function Game() {
     getNewQuestion();
   }, [token, dispatch]);
 
-  return (
-    <div>
-      <Header />
-      <p data-testid='question-category'>{questions.category}</p>
-      <h3 data-testid='question-text'>{questions.question}</h3>
-      <div data-testid='answer-options'>
-        {questions.answers?.map(({ text, correct, id }) => (
-          <button
-            onClick={() => setAnswered(true)}
-            disabled={answered}
-            className={`question ${answered && correct && 'correct'}
-               ${answered && !correct && 'incorrect'}`}
-            data-testid={correct ? 'correct-answer' : `wrong-answer-${id}`}
-            key={`${text}:${id}`}
-            type='button'
-          >
-            {text}
-          </button>
-        ))}
-        <h1>{timer}</h1>
+    useEffect(() => {
+      getNewQuestion();
+    }, [token]);
+  
+    return (
+      <div>
+        <Header />
+        <p data-testid="question-category">{ questions.category }</p>
+        <h3 data-testid="question-text">{ questions.question }</h3>
+        <div data-testid="answer-options">
+          { questions.answers && questions.answers.map(({ text, correct, id }) => (
+            <button
+              onClick={ () => setAnswered(true) }
+              className={ `question ${answered && correct && 'correct'}
+               ${ answered && !correct &&  'incorrect'}` }
+              data-testid={ correct ? 'correct-answer' : `wrong-answer-${id}` }
+              key={`${text}:${id}`} type="button">
+              {text}
+            </button>)) }
+        </div>
       </div>
     </div>
   );
