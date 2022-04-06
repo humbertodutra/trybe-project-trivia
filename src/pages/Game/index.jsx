@@ -1,27 +1,29 @@
 
 import React, { useEffect, useState } from 'react';
 import { fetchQuestion } from '../../services/api';
-import { useDispatch, useSelector } from "react-redux";
-import { fetchToken } from "./../../services/api";
-import { tokenData } from '../../redux/actions';
-
+import Header from "./../../components/Header/index";
+import md5 from 'crypto-js/md5';
+import { useSelector } from "react-redux";
 
 export default function Game() {
-  const [questions, setQuestion] = useState({});
 
-  const token = useSelector(({ token }) => token)
-  const dispatch = useDispatch()
+  const [questions, setQuestion] = useState({});
+  const [newQuestion, setNewQuestion] = useState(false);
+
+  const { token } = useSelector((state) => state )
 
   const shuffleAnswers = (answers) => {
     const sortNumber = 0.5;
-    const answersObj = [
-      { text: answers.correct_answer, correct: true, id: 10 },
-      ...answers.incorrect_answers.map((answer, i) => (
-        { text: answer, correct: false, id: i }))];
+    const answersObj = [{ text: answers.correct_answer, correct: true, id:10 },
+      ...answers.incorrect_answers.map((answer, i) => ({ text: answer, correct: false, id: i }))];
     return answersObj.sort(() => Math.random() - sortNumber);
   };
 
   const getNewQuestion = async () => {
+    
+    if (token) {
+      const data = await fetchQuestion(token);
+      setQuestion({ ...data?.results[0], answers: shuffleAnswers(data?.results[0]) });
     try {
       const data = await fetchQuestion(token);
       setQuestion({ ...data?.results[0], answers: shuffleAnswers(data?.results[0]) });
@@ -33,26 +35,23 @@ export default function Game() {
 
   useEffect(() => {
     getNewQuestion();
-  }, []);
 
-  const { category, question, answers } = questions;
+  }, [token,newQuestion]);
 
   return (
-  <Header />
     <div>
-      <p data-testid="question-category">{category}</p>
-      <h3 data-testid="question-text">{question}</h3>
+      <Header/>
+      <p data-testid="question-category">{questions.category}</p>
+      <h3 data-testid="question-text">{questions.question}</h3>
       <div data-testid="answer-options">
-        {answers?.map(({ text, correct, id }) => (
+        {questions.answers?.map(({ text, correct, id }) => (
           <button
-            onClick={() => console.log(correct) }
+            onClick={() => setNewQuestion(!newQuestion) }
             data-testid={correct ? 'correct-answer' : `wrong-answer-${id}`}
             key={`${text}:${id}`} type="button">
             {text}
           </button>))}
       </div>
     </div>
-  
-
   );
 }

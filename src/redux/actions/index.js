@@ -11,3 +11,10 @@ export function tokenData(token) {
     token,
   };
 }
+
+export function setRanking(payload) {
+  return {
+    type: 'SET_RANKING',
+    payload,
+  };
+}

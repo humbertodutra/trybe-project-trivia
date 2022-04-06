@@ -10,8 +10,8 @@ export default function player(state = INITIAL_STATE, action) {
   case ('ADD_PLAYER_DATA'):
     return {
       ...state,
-      name: action.playerData.name,
-      gravatarEmail: action.playerData.email,
+      name: action.data.name,
+      gravatarEmail: action.data.email,
     };
   default:
     return state;
