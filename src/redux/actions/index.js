@@ -25,3 +25,9 @@ export function updateScore(score) {
     score,
   };
 }
+
+export function updateAssertions() {
+  return {
+    type: 'UPDATE_ASSERTIONS',
+  };
+}

@@ -18,6 +18,11 @@ export default function player(state = INITIAL_STATE, action) {
       ...state,
       score: action.score,
     };
+  case ('UPDATE_ASSERTIONS'):
+    return {
+      ...state,
+      assertions: state.assertions + 1,
+    };
   default:
     return state;
   }
