@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { fetchQuestion, fetchToken } from '../../services/api';
 import Header from '../../components/Header/index';
 
-import { tokenData, updateScore } from '../../redux/actions';
+import { tokenData, updateScore, updateAssertions } from '../../redux/actions';
 import './game.css';
 import AnswerOptions from '../../components/AnswerOptions/index';
 import shuffleAnswers from '../../helpers/func';
@@ -35,6 +35,7 @@ export default function Game() {
     };
 
     if (correct) {
+      dispatch(updateAssertions());
       dispatch(updateScore(difficultyScores[questions[questionIndex].difficulty]));
     }
   }
