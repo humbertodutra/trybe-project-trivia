@@ -16,6 +16,14 @@ export default function Feedback() {
           assertions < THREE ? 'Could be better...' : 'Well Done!'
         }
       </p>
+      <Link to="/">
+        <button
+          data-testid="btn-play-again"
+          type="button"
+        >
+          Play Again
+        </button>
+      </Link>
       <Link to="/ranking">
         <button
           data-testid="btn-ranking"
