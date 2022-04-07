@@ -6,7 +6,15 @@ import Header from '../../components/Header';
 const THREE = 3;
 
 export default function Feedback() {
-  const { assertions } = useSelector(({ player }) => player);
+  const { assertions, score, name } = useSelector(({ player }) => player);
+  const playersInfo = { name, score, assertions };
+  const verifyStorage = JSON.parse(localStorage.getItem('players'));
+
+  if (!verifyStorage) {
+    localStorage.setItem('players', JSON.stringify([playersInfo]));
+  } else {
+    localStorage.setItem('players', JSON.stringify([...verifyStorage, playersInfo]));
+  }
 
   return (
     <div data-testid="feedback-text">
@@ -15,6 +23,20 @@ export default function Feedback() {
         {
           assertions < THREE ? 'Could be better...' : 'Well Done!'
         }
+      </p>
+      <p>
+        Sua pontuação total:
+        <span data-testid="feedback-total-score">
+          {score}
+          <span> pontos </span>
+        </span>
+      </p>
+      <p>
+        Voce acertou um total de:
+        <span data-testid="feedback-total-question">
+          { assertions }
+          <span> perguntas </span>
+        </span>
       </p>
       <Link to="/">
         <button
