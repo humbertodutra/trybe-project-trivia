@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { fetchQuestion, fetchToken } from '../../services/api';
 import Header from '../../components/Header/index';
 
@@ -22,6 +23,7 @@ export default function Game() {
 
   const { token } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const shuffleAnswers = (answers) => {
     const answersObj = [
@@ -49,30 +51,25 @@ export default function Game() {
   }
 
   function handleNextClick() {
+    setTimer(THIRTY);
     setAnswered(false);
-    // Reseta o timer
     setQuestionIndex((state) => state + 1);
+    if (questionIndex === questions.length - 1) {
+      history.push('/feedback');
+    }
   }
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const interval = setTimeout(() => {
       setTimer((prev) => prev - 1);
     }, ONE_SECOND);
 
-    if (answered) {
-      clearInterval(interval);
-    }
+    if (timer === 0) setAnswered(true);
 
-    setTimeout(() => {
-      clearInterval(interval);
-      setAnswered(true);
-    }, THIRTY * ONE_SECOND);
+    if (answered) return clearTimeout(interval);
 
-    return () => {
-      clearInterval(interval);
-      setTimer(THIRTY);
-    };
-  }, [answered]);
+    return () => clearTimeout(interval);
+  }, [answered, timer]);
 
   useEffect(() => {
     const getNewQuestion = async () => {
@@ -90,10 +87,9 @@ export default function Game() {
   }, [token, dispatch]);
 
   useEffect(() => {
-    if (questions[questionIndex]) {
-      setShuffled(shuffleAnswers(questions[questionIndex]));
-    }
-    }, [questions, questionIndex]);
+    if (questions[questionIndex]) setShuffled(shuffleAnswers(questions[questionIndex]));
+  }, [questions, questionIndex]);
+
   return (
     <div>
       <Header />
@@ -101,27 +97,28 @@ export default function Game() {
       <h3 data-testid="question-text">{questions[questionIndex]?.question}</h3>
       <div data-testid="answer-options">
         {shuffled.map(({ text, correct, id }) => (
-            <button
-              onClick={ () => handleClick(correct) }
-              className={ `question ${answered && correct && 'correct'}
-               ${answered && !correct && 'incorrect'}` }
-              data-testid={ correct ? 'correct-answer' : `wrong-answer-${id}` }
-              key={ `${text}:${id}` }
-              type="button"
-              disabled={ answered }
-            >
-              {text}
-            </button>
-          ))}
+          <button
+            onClick={ () => handleClick(correct) }
+            className={ `question ${answered && correct && 'correct'}
+              ${answered && !correct && 'incorrect'}` }
+            data-testid={ correct ? 'correct-answer' : `wrong-answer-${id}` }
+            key={ `${text}:${id}` }
+            type="button"
+            disabled={ answered }
+          >
+            {text}
+          </button>
+        ))}
       </div>
-      { answered &&
+      { answered && (
         <button
           onClick={ handleNextClick }
           data-testid="btn-next"
+          type="button"
         >
           Next
         </button>
-      }
+      ) }
       <h1>{timer}</h1>
     </div>
   );
