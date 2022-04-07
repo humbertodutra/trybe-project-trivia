@@ -6,8 +6,9 @@ import Header from '../../components/Header/index';
 
 import { tokenData, updateScore } from '../../redux/actions';
 import './game.css';
+import AnswerOptions from '../../components/AnswerOptions/index';
+import shuffleAnswers from '../../helpers/func';
 
-const sortNumber = 0.5;
 const MEDIUM = 2;
 const HARD = 3;
 const TEN = 10;
@@ -25,26 +26,14 @@ export default function Game() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const shuffleAnswers = (answers) => {
-    const answersObj = [
-      { text: answers.correct_answer, correct: true, id: TEN },
-      ...answers.incorrect_answers.map((answer, i) => ({
-        text: answer,
-        correct: false,
-        id: i,
-      })),
-    ];
-    return answersObj.sort(() => Math.random() - sortNumber);
-  };
-
   function handleClick(correct) {
     setAnswered(true);
-
     const difficultyScores = {
       hard: TEN + (timer * HARD),
       medium: TEN + (timer * MEDIUM),
       easy: TEN + timer,
     };
+
     if (correct) {
       dispatch(updateScore(difficultyScores[questions[questionIndex].difficulty]));
     }
@@ -65,7 +54,6 @@ export default function Game() {
     }, ONE_SECOND);
 
     if (timer === 0) setAnswered(true);
-
     if (answered) return clearTimeout(interval);
 
     return () => clearTimeout(interval);
@@ -87,7 +75,9 @@ export default function Game() {
   }, [token, dispatch]);
 
   useEffect(() => {
-    if (questions[questionIndex]) setShuffled(shuffleAnswers(questions[questionIndex]));
+    if (questions[questionIndex]) {
+      setShuffled(shuffleAnswers(questions[questionIndex]));
+    }
   }, [questions, questionIndex]);
 
   return (
@@ -95,21 +85,11 @@ export default function Game() {
       <Header />
       <p data-testid="question-category">{questions[questionIndex]?.category}</p>
       <h3 data-testid="question-text">{questions[questionIndex]?.question}</h3>
-      <div data-testid="answer-options">
-        {shuffled.map(({ text, correct, id }) => (
-          <button
-            onClick={ () => handleClick(correct) }
-            className={ `question ${answered && correct && 'correct'}
-              ${answered && !correct && 'incorrect'}` }
-            data-testid={ correct ? 'correct-answer' : `wrong-answer-${id}` }
-            key={ `${text}:${id}` }
-            type="button"
-            disabled={ answered }
-          >
-            {text}
-          </button>
-        ))}
-      </div>
+      <AnswerOptions
+        handleClick={ handleClick }
+        shuffled={ shuffled }
+        answered={ answered }
+      />
       { answered && (
         <button
           onClick={ handleNextClick }
