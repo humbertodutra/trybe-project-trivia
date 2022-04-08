@@ -12,6 +12,8 @@ export default function player(state = INITIAL_STATE, action) {
       ...state,
       name: action.data.name,
       gravatarEmail: action.data.email,
+      assertions: 0,
+      score: 0,
     };
   case ('UPDATE_SCORE'):
     return {
