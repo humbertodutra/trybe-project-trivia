@@ -1,19 +1,23 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import md5 from 'crypto-js/md5';
 import Header from '../../components/Header';
 
 const THREE = 3;
 
 export default function Feedback() {
-  const { assertions, score, name } = useSelector(({ player }) => player);
-  const playersInfo = { name, score, assertions };
-  const verifyStorage = JSON.parse(localStorage.getItem('players'));
+  const { assertions, score, name, gravatarEmail } = useSelector(({ player }) => player);
+  const playersInfo = {
+    name,
+    score,
+    picture: `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}` };
+  const verifyStorage = JSON.parse(localStorage.getItem('ranking'));
 
   if (!verifyStorage) {
-    localStorage.setItem('players', JSON.stringify([playersInfo]));
+    localStorage.setItem('ranking', JSON.stringify([playersInfo]));
   } else {
-    localStorage.setItem('players', JSON.stringify([...verifyStorage, playersInfo]));
+    localStorage.setItem('ranking', JSON.stringify([...verifyStorage, playersInfo]));
   }
 
   return (
