@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/humbertodutra.github.io/trybe-project-trivia/precache-manifest.0a77b15c88f6d3b24abd2159ad6b969e.js"
+  "/humbertodutra.github.io/trybe-project-trivia/precache-manifest.5375325cc17742a0f068a17e798f6cc9.js"
 );
 
 self.addEventListener('message', (event) => {
