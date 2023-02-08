@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import './ranking.css';
 
 export default function Ranking() {
   const [players, setPlayers] = useState([]);
@@ -11,10 +12,10 @@ export default function Ranking() {
     }
   }, []);
   return (
-    <div>
+    <div className="div-ranking">
       <h1 data-testid="ranking-title">Ranking</h1>
       { players.map((a, index) => (
-        <div key={ index }>
+        <div key={ index } className="div-ranking-line">
           <h4 data-testid={ `player-name-${index}` }>{a.name}</h4>
           <span data-testid={ `player-score-${index}` }>
             {a.score }
@@ -27,6 +28,7 @@ export default function Ranking() {
         <button
           data-testid="btn-go-home"
           type="button"
+          className="btn-ranking"
         >
           Go Home
         </button>

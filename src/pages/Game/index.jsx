@@ -29,14 +29,16 @@ export default function Game() {
   function handleClick(correct) {
     setAnswered(true);
     const difficultyScores = {
-      hard: TEN + (timer * HARD),
-      medium: TEN + (timer * MEDIUM),
+      hard: TEN + timer * HARD,
+      medium: TEN + timer * MEDIUM,
       easy: TEN + timer,
     };
 
     if (correct) {
       dispatch(updateAssertions());
-      dispatch(updateScore(difficultyScores[questions[questionIndex].difficulty]));
+      dispatch(
+        updateScore(difficultyScores[questions[questionIndex].difficulty]),
+      );
     }
   }
 
@@ -66,6 +68,7 @@ export default function Game() {
         try {
           const data = await fetchQuestion(token);
           setQuestions(data.results);
+          console.log(data.results);
         } catch {
           const newToken = fetchToken();
           dispatch(tokenData(newToken));
@@ -82,25 +85,33 @@ export default function Game() {
   }, [questions, questionIndex]);
 
   return (
-    <div>
+    <>
       <Header />
-      <p data-testid="question-category">{questions[questionIndex]?.category}</p>
-      <h3 data-testid="question-text">{questions[questionIndex]?.question}</h3>
-      <AnswerOptions
-        handleClick={ handleClick }
-        shuffled={ shuffled }
-        answered={ answered }
-      />
-      { answered && (
-        <button
-          onClick={ handleNextClick }
-          data-testid="btn-next"
-          type="button"
-        >
-          Next
-        </button>
-      ) }
-      <h1>{timer}</h1>
-    </div>
+      <div className="game-div">
+        <p className="p-game" data-testid="question-category">
+          {questions[questionIndex]?.category}
+        </p>
+        <h3 data-testid="question-text">
+          {decodeURIComponent(questions[questionIndex]?.question.replace(/&quot;/g, '"'))}
+        </h3>
+
+        <AnswerOptions
+          handleClick={ handleClick }
+          shuffled={ shuffled }
+          answered={ answered }
+        />
+        {answered && (
+          <button
+            onClick={ handleNextClick }
+            data-testid="btn-next"
+            type="button"
+            className="btn-next"
+          >
+            Next
+          </button>
+        )}
+        <h1 className="timer">{timer}</h1>
+      </div>
+    </>
   );
 }

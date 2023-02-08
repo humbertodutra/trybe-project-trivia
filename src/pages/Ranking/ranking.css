@@ -1,0 +1,42 @@
+.div-ranking-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+  
+h4[data-testid^='player-name-'] {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+  
+span[data-testid^='player-score-'] {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+  
+.btn-ranking {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: rgb(110, 94, 201);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.2s ease-in-out;
+}
+  
+.btn-ranking:hover {
+    cursor: pointer;
+    background-color: white;
+    color: rgb(110, 94, 201);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+  

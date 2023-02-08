@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import '../../App.css';
 import { useDispatch } from 'react-redux';
 import { tokenData, playerData } from '../../redux/actions';
 import { fetchToken } from '../../services/api';
+import '../../App.css';
+import TriviaLogo from '../../trivia.png';
 
 export default function Login() {
   const [state, setState] = React.useState({
@@ -30,29 +31,35 @@ export default function Login() {
   }
 
   return (
-    <div>
-      <form onSubmit={ (event) => event.preventDefault() }>
-        <label htmlFor="input-name">
+    <div id="main-div">
+      <img id="logo" src={ TriviaLogo } alt="Trivia Logo" />
+      <form id="form-login" onSubmit={ (event) => event.preventDefault() }>
+        <label className="label-login" htmlFor="input-name">
           <input
+            className="input-login"
             name="name"
             id="input-name"
             type="text"
             data-testid="input-player-name"
             value={ state.name }
             onChange={ handleChange }
+            placeholder="Name"
           />
         </label>
-        <label htmlFor="input-email">
+        <label className="label-login" htmlFor="input-email">
           <input
+            className="input-login"
             name="email"
             id="input-email"
             type="email"
             data-testid="input-gravatar-email"
             value={ state.email }
             onChange={ handleChange }
+            placeholder="Email"
           />
         </label>
         <button
+          className="btn-login"
           id="btn-play"
           type="submit"
           data-testid="btn-play"
@@ -63,14 +70,15 @@ export default function Login() {
         </button>
       </form>
 
-      <Link to="/settings">
+    </div>
+  );
+}
+
+/* <Link to="/settings">
         <button
           data-testid="btn-settings"
           type="button"
         >
           Configurações do jogo
         </button>
-      </Link>
-    </div>
-  );
-}
+      </Link> */
