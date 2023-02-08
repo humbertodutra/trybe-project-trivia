@@ -11,7 +11,7 @@ The main goal here was to put in practice what we had learned of React and Redux
 
 Clone this repository
 ```bash
-git clone git@github.com:VitorCorrea18/project-trivia.git
+git clone git@github.com:humbertodutra/trybe-project-TriviaReactRedux.git
 ```
 In the project's folder install the dependencies
 ```bash
