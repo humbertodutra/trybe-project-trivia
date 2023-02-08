@@ -19,7 +19,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0"
   },
-  "homepage": "humbertodutra.github.io/trybe-project-trivia",
+  "homepage": "https://humbertodutra.github.io/trybe-project-trivia/",
   "scripts": {
     "cy": "cypress run",
     "cy:open": "cypress open",
