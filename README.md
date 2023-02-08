@@ -6,7 +6,6 @@ This project was developed during the web development course at [Trybe](https://
 The project is a Trivia game.  This app is using the api [Open Trivia Database](https://opentdb.com/) to fill the front end.
 The main goal here was to put in practice what we had learned of React and Redux.
 
-<img src="./trivia.png" alt='screenshot' width="500">
 
 ## Installation
 
