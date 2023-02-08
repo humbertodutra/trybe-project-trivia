@@ -1,13 +1,40 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+This app is using the api "https://opentdb.com" to get the questions.
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+# Trivia
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+This project was developed during the web development course at [Trybe](https://www.betrybe.com/).
+The project is a Trivia game.  This app is using the api [Open Trivia Database](https://opentdb.com/) to fill the front end.
+The main goal here was to put in practice what we had learned of React and Redux.
+
+<img src="./trivia.png" alt='screenshot' width="500">
+
+## Installation
+
+Clone this repository
+```bash
+git clone git@github.com:VitorCorrea18/project-trivia.git
+```
+In the project's folder install the dependencies
+```bash
+npm install
+```
+Start the project
+```bash
+npm start
+```
+
+- <b>Now it should be running on your default browser</b>
+
+## How to play
+
+* <b>Login</b> <br>
+> You must enter your name and e-mail then click 'Play' button.
+* <b>Game</b> <br>
+> - Once the game starts you will will be given 5 questions from a variety of topics (<b>Geography, History, Movies, Games, etc...</b>). <br>
+> - Be aware of the time limit to answer, each question will give you 30 seconds. Once you answer or if the time is up
+you will see a button 'Next' to see the next question.
+> - Each correct answer will give a score based on the difficulty of the question.
+> - At the end of the game the total score and feedback can the seen, you can play again by clicking on the 'Play Again' button.
+ - <b> Enjoy the game :smile: </b>
+ 
+<b>Feedbacks are welcome :rocket:</b>
