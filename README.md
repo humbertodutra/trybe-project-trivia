@@ -1,10 +1,8 @@
-This app is using the api "https://opentdb.com" to get the questions.
-
 # Trivia
 
 This project was developed during the web development course at [Trybe](https://www.betrybe.com/).
 The project is a Trivia game.  This app is using the api [Open Trivia Database](https://opentdb.com/) to fill the front end.
-The main goal here was to put in practice what we had learned of React and Redux.
+The main goal of the project was to put into practice what I learned of React and Redux.
 
 
 ## Installation
