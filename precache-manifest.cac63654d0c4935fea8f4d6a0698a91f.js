@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ed994999e55ee236598ff032e0db53a7",
+    "revision": "719185f3337c3cd7adb1413f05994cdc",
     "url": "/humbertodutra.github.io/trybe-project-trivia/index.html"
   },
   {
-    "revision": "36f3de78536aeff9ec0f",
+    "revision": "7a3eecac1982bb099218",
     "url": "/humbertodutra.github.io/trybe-project-trivia/static/css/main.84e10fdb.chunk.css"
   },
   {
-    "revision": "b9c5ab0a63262e10ffad",
-    "url": "/humbertodutra.github.io/trybe-project-trivia/static/js/2.a9efad86.chunk.js"
+    "revision": "56fa8002db9d5d39031c",
+    "url": "/humbertodutra.github.io/trybe-project-trivia/static/js/2.576e2570.chunk.js"
   },
   {
     "revision": "2d0dc3ea56ea29aa89323d664321ba6d",
-    "url": "/humbertodutra.github.io/trybe-project-trivia/static/js/2.a9efad86.chunk.js.LICENSE.txt"
+    "url": "/humbertodutra.github.io/trybe-project-trivia/static/js/2.576e2570.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "36f3de78536aeff9ec0f",
-    "url": "/humbertodutra.github.io/trybe-project-trivia/static/js/main.c6833e62.chunk.js"
+    "revision": "7a3eecac1982bb099218",
+    "url": "/humbertodutra.github.io/trybe-project-trivia/static/js/main.6b5fdc96.chunk.js"
   },
   {
     "revision": "39ddb591c6d2f9c2a450",
